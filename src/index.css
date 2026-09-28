@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Poppins", sans-serif;
+  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+  --font-montserrat: "Montserrat", system-ui, -apple-system, sans-serif;
+  --color-brand-primary: #3F6448;
+  --color-brand-dark: #294333;
+  --color-brand-light: #E7EEE7;
+  --color-brand-accent: #C98258;
+  --color-brand-bg: #FAF8F4;
+  --color-brand-text: #292724;
+  --color-brand-cream: #F3EDE3;
+}
+
+body {
+  font-family: var(--font-montserrat);
+  background-color: #FAF8F4;
+  color: #292724;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-serif, .font-editorial, .font-heading {
+  font-family: var(--font-poppins);
+}

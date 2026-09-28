@@ -1,0 +1,6 @@
+{
+  "name": "Banco de Receitas e Opções para Cães",
+  "description": "Biblioteca organizada de receitas, petiscos e opções práticas de alimentação para cães com seleção personalizada.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
