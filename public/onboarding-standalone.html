@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Diagnóstico Canino - Carregando Questionário</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #FAF7F2;
+      color: #292724;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Transição suave de opacidade entre imagens */
+    .fade-image {
+      transition: opacity 0.5s ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#FAF7F2] flex flex-col justify-between items-center py-6 sm:py-8 px-4 select-none">
+
+  <!-- ========================================================
+       1. TOPO: Nossa Logo Oficial em Roxo (4 Patas)
+       ======================================================== -->
+  <header class="w-full max-w-sm flex items-center justify-center pt-2 pb-2">
+    <div class="inline-flex items-center gap-2">
+      <div class="w-8 h-8 rounded-xl bg-[#A855F7] text-white flex items-center justify-center shadow-sm shadow-purple-500/20 shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-white text-white" viewBox="0 0 24 24">
+          <path d="M12 11.5c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-6.5-1c1.38 0 2.5-1.12 2.5-2.5S6.88 5.5 5.5 5.5 3 6.62 3 8s1.12 2.5 2.5 2.5zm13 0c1.38 0 2.5-1.12 2.5-2.5S19.88 5.5 18.5 5.5 16 6.62 16 8s1.12 2.5 2.5 2.5zM7.5 15.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-4.5 4c-3.04 0-5.5-2.46-5.5-5.5 0-1.52.62-2.9 1.62-3.89.99-.99 2.36-1.61 3.88-1.61s2.89.62 3.88 1.61c1 1 1.62 2.37 1.62 3.89 0 3.04-2.46 5.5-5.5 5.5z"/>
+        </svg>
+      </div>
+      <span class="text-base sm:text-lg font-bold text-[#292724] tracking-tight">
+        4 Patas
+      </span>
+    </div>
+  </header>
+
+  <!-- ========================================================
+       2. CENTRO: Container Fixo 1:1 com Transição Fade In / Out
+       ======================================================== -->
+  <main class="w-full max-w-sm flex-1 flex flex-col items-center justify-center my-auto">
+    <div id="imageContainer" class="w-full aspect-square relative rounded-3xl overflow-hidden shadow-sm border border-black/5 bg-white">
+      <!-- Imagens inseridas dinamicamente via JavaScript -->
+    </div>
+
+    <!-- Indicadores de slide (pontinhos discretos) -->
+    <div id="dotsContainer" class="flex items-center justify-center gap-1.5 mt-4">
+      <!-- Gerados dinamicamente via JavaScript -->
+    </div>
+  </main>
+
+  <!-- ========================================================
+       3 & 4. RODAPÉ: Progresso & Transição para Botão Continuar
+       ======================================================== -->
+  <footer class="w-full max-w-sm flex flex-col items-center justify-end pb-4 pt-4 min-h-[140px]">
+
+    <!-- ESTADO INICIAL: Barra de progresso e textos de espera -->
+    <div id="loadingSection" class="w-full flex flex-col items-center text-center transition-opacity duration-500">
+      <!-- Texto 1: Negrito e cor escura -->
+      <p class="font-bold text-sm sm:text-base text-gray-900 mb-3">
+        Por favor não feche esta página
+      </p>
+
+      <!-- Barra de progresso 100% sincronizada com a contagem -->
+      <div class="w-full relative py-3">
+        <div class="w-full h-2.5 bg-gray-200 rounded-full relative">
+          <div id="progressBar" class="h-full bg-[#A855F7] rounded-full" style="width: 0%;"></div>
+
+          <!-- Ícone de patinha de cachorro exatamente na ponta da barra -->
+          <div id="pawIcon" class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none" style="left: 0%;">
+            <div class="w-6 h-6 rounded-full bg-white shadow-sm border border-purple-300 flex items-center justify-center text-[#A855F7]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 11.5c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-6.5-1c1.38 0 2.5-1.12 2.5-2.5S6.88 5.5 5.5 5.5 3 6.62 3 8s1.12 2.5 2.5 2.5zm13 0c1.38 0 2.5-1.12 2.5-2.5S19.88 5.5 18.5 5.5 16 6.62 16 8s1.12 2.5 2.5 2.5zM7.5 15.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-4.5 4c-3.04 0-5.5-2.46-5.5-5.5 0-1.52.62-2.9 1.62-3.89.99-.99 2.36-1.61 3.88-1.61s2.89.62 3.88 1.61c1 1 1.62 2.37 1.62 3.89 0 3.04-2.46 5.5-5.5 5.5z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Texto 2: Subtexto cinza com porcentagem dinâmica -->
+      <p id="subtext" class="text-xs sm:text-sm text-gray-500 mt-2 font-medium">
+        Carregando o questionário... 0%
+      </p>
+    </div>
+
+    <!-- ESTADO FINAL: Botão CONTINUAR (exibido suavemente após 100%) -->
+    <div id="continueSection" class="w-full hidden opacity-0 flex-col items-center transition-all duration-500">
+      <button 
+        type="button" 
+        id="continueBtn"
+        onclick="iniciarQuiz()"
+        class="w-full py-4 px-8 rounded-full bg-[#A855F7] hover:bg-[#9333EA] active:scale-95 text-white font-bold text-base sm:text-lg shadow-lg shadow-purple-500/30 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-300"
+      >
+        <span>CONTINUAR</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+        </svg>
+      </button>
+      <span class="text-xs text-gray-400 mt-2">
+        Clique para iniciar o diagnóstico
+      </span>
+    </div>
+
+  </footer>
+
+  <!-- ========================================================
+       5. JAVASCRIPT: Lógica de Carregamento Contínuo e Slides
+       ======================================================== -->
+  <script>
+    // 1. Array com as 5 imagens locais ou remotas
+    const imagens = [
+      "./src/assets/images/Acabe com a Coceira do Cachorro.png",
+      "./src/assets/images/Elimine a Pele Vermelha em 7 Dias.png",
+      "./src/assets/images/Faça seu cão comer com vontade.png",
+      "./src/assets/images/Firme o Intestino do Seu Cão.png",
+      "./src/assets/images/Pare a Queda de Pelo Excessiva.png"
+    ];
+
+    // Constantes de tempo
+    const TEMPO_POR_IMAGEM = 2500; // 2.5 segundos por slide
+    const TOTAL_IMAGENS = imagens.length;
+    const DURACAO_TOTAL = TOTAL_IMAGENS * TEMPO_POR_IMAGEM; // 12.500 ms (12.5 segundos)
+
+    // Referências DOM
+    const imageContainer = document.getElementById('imageContainer');
+    const dotsContainer = document.getElementById('dotsContainer');
+    const progressBar = document.getElementById('progressBar');
+    const pawIcon = document.getElementById('pawIcon');
+    const subtext = document.getElementById('subtext');
+    const loadingSection = document.getElementById('loadingSection');
+    const continueSection = document.getElementById('continueSection');
+
+    // Cria os elementos de imagem e os dots indicadores
+    const imgElements = [];
+    const dotElements = [];
+
+    imagens.forEach((src, index) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `Dica de alimentação canina ${index + 1}`;
+      img.className = `fade-image absolute inset-0 w-full h-full object-contain p-2 ${index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}`;
+      imageContainer.appendChild(img);
+      imgElements.push(img);
+
+      const dot = document.createElement('div');
+      dot.className = `h-1.5 rounded-full transition-all duration-300 ${index === 0 ? 'w-6 bg-[#A855F7]' : 'w-1.5 bg-black/20'}`;
+      dotsContainer.appendChild(dot);
+      dotElements.push(dot);
+    });
+
+    let startTime = null;
+    let concluido = false;
+
+    // Loop de animação sincronizado
+    function animarProgresso(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+
+      // 1. O carregamento avança suavemente acompanhando os slides até 100%
+      const progresso = Math.min((elapsed / DURACAO_TOTAL) * 100, 100);
+      progressBar.style.width = progresso + '%';
+      pawIcon.style.left = progresso + '%';
+      subtext.textContent = `Carregando o questionário... ${Math.round(progresso)}%`;
+
+      // 2. Os slides CONTINUAM passando infinitamente mesmo após o 5º slide
+      const indiceAtual = Math.floor(elapsed / TEMPO_POR_IMAGEM) % TOTAL_IMAGENS;
+      
+      imgElements.forEach((img, idx) => {
+        if (idx === indiceAtual) {
+          img.classList.remove('opacity-0', 'z-0');
+          img.classList.add('opacity-100', 'z-10');
+        } else {
+          img.classList.remove('opacity-100', 'z-10');
+          img.classList.add('opacity-0', 'z-0');
+        }
+      });
+
+      // Atualiza os dots indicadores
+      dotElements.forEach((dot, idx) => {
+        if (idx === indiceAtual) {
+          dot.className = 'h-1.5 rounded-full transition-all duration-300 w-6 bg-[#A855F7]';
+        } else {
+          dot.className = 'h-1.5 rounded-full transition-all duration-300 w-1.5 bg-black/20';
+        }
+      });
+
+      // Quando atingir 100%, faz a transição para o botão CONTINUAR, mas mantém os slides rodando
+      if (elapsed >= DURACAO_TOTAL && !concluido) {
+        concluido = true;
+        concluirCarregamento();
+      }
+
+      // Continua a animação para que os slides continuem alternando
+      requestAnimationFrame(animarProgresso);
+    }
+
+    // Função executada ao atingir 100%
+    function concluirCarregamento() {
+      progressBar.style.width = '100%';
+      pawIcon.style.left = '97%';
+
+      // Esconde suavemente a barra de progresso
+      loadingSection.classList.add('opacity-0');
+      
+      setTimeout(() => {
+        loadingSection.style.display = 'none';
+
+        // Exibe suavemente o botão CONTINUAR
+        continueSection.classList.remove('hidden');
+        continueSection.classList.add('flex');
+        
+        requestAnimationFrame(() => {
+          continueSection.classList.remove('opacity-0');
+          continueSection.classList.add('opacity-100');
+        });
+      }, 500);
+    }
+
+    // Função disparada ao clicar no botão "CONTINUAR"
+    function iniciarQuiz() {
+      // Transiciona para a pergunta 1 do quiz (Q1 - Nome do cão)
+      window.location.href = '/quiz';
+    }
+
+    // Inicia a animação imediatamente
+    window.addEventListener('DOMContentLoaded', () => {
+      requestAnimationFrame(animarProgresso);
+    });
+  </script>
+</body>
+</html>

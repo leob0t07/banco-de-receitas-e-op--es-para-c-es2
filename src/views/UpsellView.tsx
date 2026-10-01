@@ -40,8 +40,8 @@ export const UpsellView: React.FC<UpsellViewProps> = ({ onAcceptUpsell, onDeclin
               </h3>
             </div>
             <div className="text-right sm:text-right">
-              <span className="text-xs text-[#292724]/50 line-through">R$ 97,00</span>
-              <div className="text-2xl font-serif font-bold text-[#3F6448]">R$ 29,90</div>
+              <span className="text-xs text-[#292724]/50 line-through font-poppins">R$ 97,00</span>
+              <div className="text-2xl font-bold text-[#1B4332] font-poppins">R$ 29,90</div>
             </div>
           </div>
 

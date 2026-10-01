@@ -10,18 +10,43 @@ export interface QuizAnswers {
   lifeStage: string;
   activityLevel: string;
   feedingType: string;
-  mainGoal: string;
-  painPoints: string[];
+  symptoms: string[];
+  costOfInaction: string;
+  availableTime: string;
+  mainPriority: string;
+  mainChallenge?: string;
+  mainGoal?: string;
+  painPoints?: string[];
+}
+
+export interface DogGrammar {
+  artigo: "o" | "a";
+  artigoCap: "O" | "A";
+  pronome: "ele" | "ela";
+  pronomeCap: "Ele" | "Ela";
+  sufixo: "o" | "a";
+  deArtigo: "do" | "da";
+  de_artigo: "do" | "da";
+  deArtigoCap: "Do" | "Da";
+  dPronome: "dele" | "dela";
+  noArtigo: "no" | "na";
+  em_artigo: "no" | "na";
+  nome: string;
 }
 
 const DEFAULT_ANSWERS: QuizAnswers = {
   dogName: "",
   dogBreed: "",
-  dogGender: "macho",
+  dogGender: "",
   dogSize: "",
   lifeStage: "",
   activityLevel: "",
   feedingType: "",
+  symptoms: [],
+  costOfInaction: "",
+  availableTime: "",
+  mainPriority: "",
+  mainChallenge: "",
   mainGoal: "",
   painPoints: []
 };
@@ -37,6 +62,8 @@ interface QuizContextType {
   isComplete: boolean;
   computedProfile: ResultProfileDetails;
   formattedNarrative: string;
+  grammar: DogGrammar;
+  formatQuizText: (text: string) => string;
   dogSummary: {
     name: string;
     breedLabel: string;
@@ -180,7 +207,7 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       stageLabel: stageLabels[answers.lifeStage] || (isFemea ? "Adulta" : "Adulto"),
       routineLabel: routineLabels[answers.activityLevel] || (isFemea ? "Ativa" : "Ativo"),
       dietLabel: dietLabels[answers.feedingType] || "Ração e complementos",
-      goalLabel: goalLabels[answers.mainGoal] || "Mais opções para o dia a dia"
+      goalLabel: goalLabels[answers.mainGoal || ""] || "Mais opções para o dia a dia"
     };
   }, [answers]);
 
@@ -216,6 +243,75 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return `Como você contou que ${article} ${name}${breedText} é ${noun} ${stage}, com ritmo ${routine} e que atualmente consome ${diet}, o caminho mais inteligente para a sua rotina é começar pelas opções que trazem mais organização e praticidade, sem precisar inventar do zero toda semana.`;
   }, [answers]);
 
+  const grammar = useMemo<DogGrammar>(() => {
+    const isFemea = answers.dogGender === "femea";
+    const nome = answers.dogName.trim() || (isFemea ? "sua parceira" : "seu parceiro");
+    return {
+      artigo: isFemea ? "a" : "o",
+      artigoCap: isFemea ? "A" : "O",
+      pronome: isFemea ? "ela" : "ele",
+      pronomeCap: isFemea ? "Ela" : "Ele",
+      sufixo: isFemea ? "a" : "o",
+      deArtigo: isFemea ? "da" : "do",
+      de_artigo: isFemea ? "da" : "do",
+      deArtigoCap: isFemea ? "Da" : "Do",
+      dPronome: isFemea ? "dela" : "dele",
+      noArtigo: isFemea ? "na" : "no",
+      em_artigo: isFemea ? "na" : "no",
+      nome
+    };
+  }, [answers.dogGender, answers.dogName]);
+
+  const formatQuizText = (text: string): string => {
+    const isFemea = answers.dogGender === "femea";
+    const rawName = answers.dogName.trim();
+    const nome = rawName || (isFemea ? "sua parceira" : "seu parceiro");
+    const artigo = isFemea ? "a" : "o";
+    const artigoCap = isFemea ? "A" : "O";
+    const pronome = isFemea ? "ela" : "ele";
+    const pronomeCap = isFemea ? "Ela" : "Ele";
+    const deArtigo = isFemea ? "da" : "do";
+    const deArtigoCap = isFemea ? "Da" : "Do";
+    const dPronome = isFemea ? "dela" : "dele";
+    const noArtigo = isFemea ? "na" : "no";
+    const sufixo = isFemea ? "a" : "o";
+    const faseVida = dogSummary.stageLabel;
+    const porte = dogSummary.sizeLabel;
+
+    return text
+      // Variações em maiúsculas
+      .replace(/d\$\{artigo\.toUpperCase\(\)\}\$\{NOME\.toUpperCase\(\)\}/g, `${deArtigoCap.toUpperCase()} ${nome.toUpperCase()}`)
+      .replace(/d\$\{artigo\.toUpperCase\(\)\}\s*\$\{NOME\.toUpperCase\(\)\}/g, `${deArtigoCap.toUpperCase()} ${nome.toUpperCase()}`)
+      .replace(/\$\{artigo\.toUpperCase\(\)\}\$\{NOME\.toUpperCase\(\)\}/g, `${artigoCap.toUpperCase()} ${nome.toUpperCase()}`)
+      .replace(/\$\{artigo\.toUpperCase\(\)\}\s*\$\{NOME\}/g, `${artigoCap} ${nome}`)
+      .replace(/\$\{artigo\.toUpperCase\(\)\}\$\{NOME\}/g, `${artigoCap} ${nome}`)
+      .replace(/\$\{artigo\.toUpperCase\(\)\}/g, artigoCap)
+      // Variações com preposição de/em
+      .replace(/d\$\{artigo\}\s*\$\{NOME\}/g, `${deArtigo} ${nome}`)
+      .replace(/d\$\{artigo\}\$\{NOME\}/g, `${deArtigo} ${nome}`)
+      .replace(/n\$\{artigo\}\s*\$\{NOME\}/g, `${noArtigo} ${nome}`)
+      .replace(/n\$\{artigo\}\$\{NOME\}/g, `${noArtigo} ${nome}`)
+      .replace(/\$\{artigo\}\s*\$\{NOME\}/g, `${artigo} ${nome}`)
+      .replace(/\$\{artigo\}\$\{NOME\}/g, `${artigo} ${nome}`)
+      .replace(/d\$\{pronome\}/g, dPronome)
+      .replace(/\$\{pronome\}/g, pronome)
+      .replace(/\$\{dPronome\}/g, dPronome)
+      .replace(/\$\{NOME\}/g, nome)
+      .replace(/\$\{sufixo\}/g, sufixo)
+      .replace(/\$\{FASE_VIDA\}/g, faseVida)
+      .replace(/\$\{PORTE\}/g, porte)
+      // Sintaxe legada entre colchetes
+      .replace(/d\[O_A\]\s*\[NOME\]/g, `${deArtigo} ${nome}`)
+      .replace(/\[DO_DA\]\s*\[NOME\]/g, `${deArtigo} ${nome}`)
+      .replace(/\[O_A\]\s*\[NOME\]/g, `${artigo} ${nome}`)
+      .replace(/\[NOME\]/g, nome)
+      .replace(/\[ELE_ELA\]/g, pronome)
+      .replace(/\[ELE_ELA_CAP\]/g, pronomeCap)
+      .replace(/\[DELE_DELA\]/g, dPronome)
+      .replace(/\[O_A\]/g, artigo)
+      .replace(/\[DO_DA\]/g, deArtigo);
+  };
+
   return (
     <QuizContext.Provider
       value={{
@@ -227,6 +323,8 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isComplete,
         computedProfile,
         formattedNarrative,
+        grammar,
+        formatQuizText,
         dogSummary
       }}
     >

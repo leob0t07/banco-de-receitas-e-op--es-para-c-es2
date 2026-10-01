@@ -3,6 +3,7 @@ import { QuizProvider, useQuiz } from "./context/QuizContext";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { HomeView } from "./views/HomeView";
+import { OnboardingView } from "./views/OnboardingView";
 import { QuizView } from "./views/QuizView";
 import { ResultView } from "./views/ResultView";
 import { OfferView } from "./views/OfferView";
@@ -10,7 +11,7 @@ import { CheckoutView } from "./views/CheckoutView";
 import { UpsellView } from "./views/UpsellView";
 import { ThankYouView } from "./views/ThankYouView";
 
-type FunnelRoute = "/" | "/quiz" | "/resultado" | "/oferta" | "/checkout" | "/upsell" | "/obrigado";
+type FunnelRoute = "/" | "/onboarding" | "/quiz" | "/resultado" | "/oferta" | "/checkout" | "/upsell" | "/obrigado";
 
 const FunnelApp: React.FC = () => {
   const { answers, resetQuiz } = useQuiz();
@@ -20,6 +21,7 @@ const FunnelApp: React.FC = () => {
     const path = window.location.pathname as FunnelRoute;
     const validRoutes: FunnelRoute[] = [
       "/",
+      "/onboarding",
       "/quiz",
       "/resultado",
       "/oferta",
@@ -36,6 +38,7 @@ const FunnelApp: React.FC = () => {
       const path = window.location.pathname as FunnelRoute;
       const validRoutes: FunnelRoute[] = [
         "/",
+        "/onboarding",
         "/quiz",
         "/resultado",
         "/oferta",
@@ -78,20 +81,24 @@ const FunnelApp: React.FC = () => {
     }
   };
 
+  const isOnboarding = currentRoute === "/" || currentRoute === "/onboarding";
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F4] text-[#292724]">
-      {/* Top Bar seguindo rigorosamente o Top Bar Contract */}
-      <Header
-        currentRoute={currentRoute}
-        showBack={currentRoute !== "/"}
-        onBack={handleHeaderBack}
-        onNavigate={route => navigateTo(route as FunnelRoute)}
-      />
+    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#222222]">
+      {/* Top Bar exibida a partir do Quiz */}
+      {!isOnboarding && (
+        <Header
+          currentRoute={currentRoute}
+          showBack={true}
+          onBack={handleHeaderBack}
+          onNavigate={route => navigateTo(route as FunnelRoute)}
+        />
+      )}
 
       {/* Conteúdo Dinâmico da Rota */}
       <main className="flex-1 flex flex-col">
-        {currentRoute === "/" && (
-          <HomeView onStartQuiz={() => navigateTo("/quiz")} />
+        {isOnboarding && (
+          <OnboardingView onContinue={() => navigateTo("/quiz")} />
         )}
 
         {currentRoute === "/quiz" && (
@@ -133,8 +140,8 @@ const FunnelApp: React.FC = () => {
         )}
       </main>
 
-      {/* Rodapé Comercial Limpo com Isenção de Responsabilidade */}
-      <Footer />
+      {/* Rodapé Comercial Limpo (a partir do Quiz) */}
+      {!isOnboarding && <Footer />}
     </div>
   );
 };

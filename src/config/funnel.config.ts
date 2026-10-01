@@ -39,14 +39,14 @@ export interface TestimonialItem {
 }
 
 export const PRODUCT_CONFIG: ProductConfig = {
-  name: "4 Patas - Receitas e Opções para Cães",
-  subtitle: "Uma biblioteca organizada de receitas, petiscos e opções para o dia a dia",
+  name: "Plano de Alimentação Personalizada",
+  subtitle: "Programa de Nutrição & Variedade Sob Medida",
   price: "R$ 9,99",
   priceNumeric: 9.99,
-  oldPrice: "R$ 97,00",
+  oldPrice: "R$ 211,00",
   checkoutUrl: "https://pay.cakto.com.br/324h63n_1149945",
-  cta: "Quero acessar o 4 Patas",
-  description: "Biblioteca digital com dezenas de receitas práticas, opções de petiscos caseiros e ideias organizadas para variar a alimentação do seu cão com segurança e praticidade."
+  cta: "DESTRAVAR O PLANO + BÔNUS AGORA",
+  description: "Kit completo de alimentação sob medida com fichas de cozinha de 3 a 5 minutos, guia de porções em colheres/xícaras, lista de supermercado e 2 bônus exclusivos."
 };
 
 export const GUARANTEE_CONFIG: GuaranteeConfig = {
@@ -116,220 +116,280 @@ export interface QuizQuestionConfig {
 export const QUIZ_CONFIG: QuizQuestionConfig[] = [
   {
     id: 1,
-    key: "dogName",
-    title: "Como ele se chama?",
-    subtext: "Digite o nome do seu cachorro",
-    type: "text",
-    placeholder: "Ex.: Thor",
-    buttonText: "Continuar"
-  },
-  {
-    id: 2,
-    key: "dogBreed",
-    title: "Qual é a raça do [NOME]?",
-    subtext: "Digite para buscar ou selecione uma opção direta.",
-    type: "breed",
-    buttonText: "Continuar"
-  },
-  {
-    id: 3,
-    key: "dogSize",
-    title: "Qual é o porte do [NOME]?",
-    type: "single",
-    microcopy: "Mais uma informação sobre o [NOME].",
-    options: [
-      {
-        value: "pequeno",
-        label: "Pequeno",
-        description: "Até aproximadamente 10 kg"
-      },
-      {
-        value: "medio",
-        label: "Médio",
-        description: "Entre aproximadamente 10 e 25 kg"
-      },
-      {
-        value: "grande",
-        label: "Grande",
-        description: "Acima de aproximadamente 25 kg"
-      }
-    ]
-  },
-  {
-    id: 4,
-    key: "lifeStage",
-    title: "Em qual fase da vida [ELE_ELA] está?",
-    type: "single",
-    options: [
-      {
-        value: "filhote",
-        label: "Filhote",
-        description: "Em fase de desenvolvimento e muita energia"
-      },
-      {
-        value: "adulto",
-        label: "Adulto",
-        description: "Fase de manutenção e rotina estabilizada"
-      },
-      {
-        value: "senior",
-        label: "Sênior",
-        description: "Ritmo mais calmo e cuidados específicos"
-      },
-      {
-        value: "indefinido",
-        label: "Não tenho certeza",
-        description: "Idade aproximada ou resgatado"
-      }
-    ]
-  },
-  {
-    id: 5,
     key: "dogGender",
-    title: "O [NOME] é macho ou fêmea?",
-    subtext: "Queremos personalizar a forma de nos referirmos a [ELE_ELA].",
+    title: "Seu cão é Macho ou Fêmea?",
+    subtext: "Queremos personalizar a forma de nos referirmos ao seu parceiro(a).",
     type: "single",
     options: [
       {
         value: "macho",
         label: "Macho",
+        icon: "♂️",
         description: "Ele é um menino"
       },
       {
         value: "femea",
         label: "Fêmea",
+        icon: "♀️",
         description: "Ela é uma menina"
       }
     ]
   },
   {
-    id: 6,
+    id: 2,
+    key: "dogName",
+    title: "Como seu parceiro(a) se chama?",
+    subtext: "Digite o nome para personalizarmos cada recomendação.",
+    type: "text",
+    placeholder: "Ex: Thor, Mel, Bob...",
+    buttonText: "Avançar"
+  },
+  {
+    id: 3,
+    key: "lifeStage",
+    title: "Qual é a fase da vida d${artigo} ${NOME}?",
+    subtext: "Isso ajuda a selecionar os nutrientes e texturas ideais.",
+    type: "single",
+    options: [
+      {
+        value: "filhote",
+        label: "Filhote",
+        icon: "🐶",
+        description: "Até 12 meses"
+      },
+      {
+        value: "adulto",
+        label: "Adulto",
+        icon: "🐕",
+        description: "1 a 7 anos"
+      },
+      {
+        value: "senior",
+        label: "Sênior",
+        icon: "🐕🦺",
+        description: "7+ anos"
+      },
+      {
+        value: "indefinido",
+        label: "Não tenho certeza",
+        icon: "❓",
+        description: "Idade aproximada ou resgatado"
+      }
+    ]
+  },
+  {
+    id: 4,
+    key: "dogSize",
+    title: "Qual é o porte d${artigo} ${NOME}?",
+    subtext: "O porte influencia diretamente as porções diárias e a textura ideal.",
+    type: "single",
+    options: [
+      {
+        value: "pequeno",
+        label: "Pequeno",
+        icon: "🦴",
+        description: "Até 10 kg"
+      },
+      {
+        value: "medio",
+        label: "Médio",
+        icon: "🥩",
+        description: "10 kg a 25 kg"
+      },
+      {
+        value: "grande",
+        label: "Grande",
+        icon: "🥣",
+        description: "Acima de 25 kg"
+      }
+    ]
+  },
+  {
+    id: 5,
+    key: "dogBreed",
+    title: "Qual é a raça d${artigo} ${NOME}?",
+    subtext: "Digite para buscar ou selecione uma opção direta abaixo.",
+    type: "breed",
+    buttonText: "Continuar"
+  },
+  {
+    id: 7,
     key: "activityLevel",
-    title: "Como é a rotina [DELE_DELA]?",
+    title: "Como é a rotina e o nível de energia d${artigo}${NOME}?",
+    subtext: "Isso define a necessidade calórica e o tipo de estímulo recomendado.",
     type: "single",
     microcopy: "Agora conseguimos entender melhor a rotina [DELE_DELA].",
     options: [
       {
         value: "tranquilo",
-        label: "Mais tranquilo",
-        description: "Passa boa parte do dia descansando"
+        label: "😴 Tranquilo(a)",
+        description: "Passa a maior parte do tempo descansando"
       },
       {
         value: "ativo",
-        label: "Ativo",
-        description: "Gosta de passear e brincar"
+        label: "🐕 Ativo(a)",
+        description: "Passeia diariamente e gosta de brincar"
       },
       {
         value: "muito_ativo",
-        label: "Muito ativo",
-        description: "Está sempre correndo, brincando ou se movimentando"
+        label: "⚡ Muito ativo(a)",
+        description: "Inquieto(a) e com muita energia"
       },
       {
         value: "varia",
-        label: "Varia bastante",
+        label: "🔄 Varia bastante conforme o dia",
         description: "Dias calmos alternados com momentos intensos"
       }
     ]
   },
   {
-    id: 7,
+    id: 8,
     key: "feedingType",
-    title: "O que [ELE_ELA] come atualmente?",
+    title: "O que ${artigo}${NOME} come atualmente no dia a dia?",
+    subtext: "A base atual nos ajuda a sugerir uma transição segura e sem estresse gástrico.",
     type: "single",
     options: [
       {
         value: "racao",
-        label: "Ração",
-        description: "Dieta baseada em ração seca ou úmida"
+        label: "🥣 Apenas ração seca",
+        description: "Dieta exclusivamente baseada em ração comercial"
       },
       {
         value: "mista",
-        label: "Ração + comida caseira",
-        description: "Mistura com complementos preparados em casa"
+        label: "🥗 Ração + misturas",
+        description: "Mistura com sachês ou comida"
       },
       {
         value: "caseira",
-        label: "Principalmente comida caseira",
-        description: "Preparações cozidas do dia a dia"
+        label: "🍲 Comida caseira repetida",
+        description: "Preparações caseiras simples repetidas no dia a dia"
       },
       {
         value: "natural",
-        label: "Alimentação natural",
-        description: "Alimentos naturais balanceados"
+        label: "🥩 Alimentação Natural (AN) formulada",
+        description: "Dieta natural crua ou cozida balanceada"
       },
       {
         value: "outra",
-        label: "Outra opção",
-        description: "Outros formatos de alimentação"
-      }
-    ]
-  },
-  {
-    id: 8,
-    key: "mainGoal",
-    title: "O que você mais gostaria de melhorar na alimentação [DELE_DELA]?",
-    subtext: "Essa resposta define o foco principal do seu acervo.",
-    type: "single",
-    microcopy: "Estamos quase lá. Seu resultado está ficando mais específico.",
-    options: [
-      {
-        value: "variedade",
-        label: "Ter mais opções para variar",
-        description: "Evitar a mesmice e trazer novos sabores seguros"
-      },
-      {
-        value: "receitas",
-        label: "Preparar receitas caseiras",
-        description: "Aprender pratos e misturas fáceis de fazer"
-      },
-      {
-        value: "petiscos",
-        label: "Ter opções de petiscos e agrados",
-        description: "Biscoitos, recompensas e agrados saudáveis"
-      },
-      {
-        value: "organizar",
-        label: "Organizar melhor a alimentação",
-        description: "Ter um método claro sem perda de tempo"
-      },
-      {
-        value: "praticidade",
-        label: "Encontrar opções práticas para a rotina",
-        description: "Preparo rápido com ingredientes acessíveis"
+        label: "❓ Outra opção",
+        description: "Outro formato ou transição em andamento"
       }
     ]
   },
   {
     id: 9,
-    key: "painPoints",
-    title: "Qual dessas situações mais parece com você?",
-    subtext: "Você pode marcar mais de uma opção.",
+    key: "symptoms",
+    title: "Você já notou algum desses sinais n${artigo}${NOME} ultimamente?",
+    subtext: "Selecione todos que se aplicam.",
     type: "multiple",
-    buttonText: "Ver meu resultado",
+    buttonText: "CONTINUAR →",
     options: [
       {
-        value: "sem_ideias",
-        label: "Fico sem ideias do que preparar"
+        value: "apetite_seletivo",
+        label: "🤢 Cheira a comida e vira o rosto / Demora para comer (Apetite Seletivo)",
+        description: "Falta de interesse pela tigela ou recusa alimentar"
       },
       {
-        value: "mesmas_coisas",
-        label: "Acabo oferecendo sempre as mesmas coisas"
+        value: "coceira_patas",
+        label: "🐾 Lambe as patas com frequência ou se coça bastante (Inflamação/Pele)",
+        description: "Sinal comum de hipersensibilidade ou inflamação alimentar"
       },
       {
-        value: "perde_tempo",
-        label: "Perco muito tempo procurando receitas"
+        value: "fezes_moles",
+        label: "💩 Fezes moles, pastosas ou com odor muito forte (Digestão/Flora)",
+        description: "Dificuldade na digestão ou flora intestinal desequilibrada"
       },
       {
-        value: "desorganizado",
-        label: "Tenho dificuldade para encontrar opções organizadas"
+        value: "queda_pelo",
+        label: "🦮 Pelo sem brilho, opaco ou caindo em excesso (Carência Nutricional)",
+        description: "Carência de ácidos graxos essenciais e hidratação"
       },
       {
-        value: "quer_variar",
-        label: "Gostaria de variar mais a alimentação"
+        value: "nenhum_prevencao",
+        label: "✨ Nenhum — Quero apenas prevenir e garantir longevidade",
+        description: "Foco total em manter a saúde, imunidade e longevidade em dia"
+      }
+    ]
+  },
+  {
+    id: 10,
+    key: "costOfInaction",
+    title: "Quanto você costuma gastar tentando agradar ou cuidar d${artigo}${NOME} quando algo não vai bem?",
+    subtext: "Compreender os gastos recorrentes ajuda a dimensionar o valor da prevenção.",
+    type: "single",
+    options: [
+      {
+        value: "saches_petiscos",
+        label: "💸 Gastos frequentes com sachês e petiscos industriais",
+        description: "Opções caras de supermercado que ${pronome} logo enjoa"
       },
       {
-        value: "opcoes_prontas",
-        label: "Quero ter opções prontas para consultar quando precisar"
+        value: "consultas_remedios",
+        label: "🏥 Consultas e remédios para alergias ou digestão",
+        description: "Gastos com exames, pomadas e medicamentos para coceiras ou fezes moles"
+      },
+      {
+        value: "horas_internet",
+        label: "⏳ Perco horas procurando o que dar na internet",
+        description: "Dúvidas constantes sobre segurança e medo de intoxicar"
+      },
+      {
+        value: "prevencao_gastos",
+        label: "🛡️ Quero evitar todos esses gastos prevenindo a saúde d${pronome} desde já",
+        description: "Prevenção diária com alimentos reais e baratos"
+      }
+    ]
+  },
+  {
+    id: 11,
+    key: "availableTime",
+    title: "Quanto tempo você tem disponível na sua rotina para aplicar o Plano Personalizado d${artigo}${NOME}?",
+    subtext: "O plano se adapta à sua disponibilidade real de tempo.",
+    type: "single",
+    options: [
+      {
+        value: "menos_5min",
+        label: "⚡ Menos de 5 minutos por dia",
+        description: "Toppers, caldos e misturas ultrarrápidas de adicionar na tigela"
+      },
+      {
+        value: "5_10min",
+        label: "⏱️ 5 a 10 minutos por dia",
+        description: "Preparos práticos rápidos e agrados funcionais do dia a dia"
+      },
+      {
+        value: "semanal_congelar",
+        label: "📅 1 vez por semana",
+        description: "Preparo prático em lote no fim de semana para congelar porções"
+      }
+    ]
+  },
+  {
+    id: 12,
+    key: "mainPriority",
+    title: "Se você pudesse destravar HOJE a nutrição ideal d${artigo}${NOME}, qual seria a sua maior prioridade?",
+    subtext: "Essa será a meta central do seu Plano de Nutrição Sob Medida.",
+    type: "single",
+    options: [
+      {
+        value: "devorar_prato",
+        label: "😍 Ver ${pronome} devorar o prato em segundos",
+        description: "Esbanjando alegria e prazer natural ao comer"
+      },
+      {
+        value: "eliminar_sintomas",
+        label: "🌿 Eliminar de vez coceiras, lambeduras e fezes moles",
+        description: "Usando a força anti-inflamatória de ingredientes naturais e seguros"
+      },
+      {
+        value: "longevidade",
+        label: "⏳ Garantir que ${pronome} viva ao meu lado pelo maior tempo possível",
+        description: "Mais anos de vida com disposição, articulações fortes e saúde plena"
+      },
+      {
+        value: "todas_anteriores",
+        label: "🔥 Todas as anteriores — Quero a máxima qualidade de vida para ${artigo}${NOME}",
+        description: "Nutrição completa, apetite voraz e longevidade máxima"
       }
     ]
   }

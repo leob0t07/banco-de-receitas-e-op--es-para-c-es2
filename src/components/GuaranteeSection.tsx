@@ -8,19 +8,19 @@ export const GuaranteeSection: React.FC = () => {
   return (
     <section className="w-full py-8 sm:py-12">
       <div className="max-w-2xl mx-auto px-4 sm:px-6">
-        <div className="bg-white border-2 border-[#3F6448]/20 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left shadow-xs">
-          <div className="w-14 h-14 rounded-2xl bg-[#E7EEE7] text-[#3F6448] flex items-center justify-center shrink-0">
+        <div className="bg-white border-2 border-[#1B4332]/20 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left shadow-[0_4px_20px_rgba(27,67,50,0.05)]">
+          <div className="w-14 h-14 rounded-2xl bg-[#F0F7F2] text-[#1B4332] flex items-center justify-center shrink-0 border border-[#1B4332]/15 shadow-xs">
             <ShieldCheck className="w-8 h-8" />
           </div>
 
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3F6448] uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1B4332] uppercase tracking-wider">
               <span>{GUARANTEE_CONFIG.days} Dias de Teste</span>
             </div>
-            <h3 className="text-lg sm:text-xl font-serif font-bold text-[#292724]">
+            <h3 className="text-lg sm:text-xl font-serif font-bold text-[#1E293B]">
               {GUARANTEE_CONFIG.title}
             </h3>
-            <p className="text-xs sm:text-sm text-[#292724]/75 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#666666] leading-relaxed">
               {GUARANTEE_CONFIG.description}
             </p>
           </div>

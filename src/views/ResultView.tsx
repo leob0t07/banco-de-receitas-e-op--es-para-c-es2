@@ -2,21 +2,17 @@ import React, { useEffect } from "react";
 import { useQuiz } from "../context/QuizContext";
 import { AntesDepois } from "../components/AntesDepois";
 import { trackEvent } from "../utils/tracking";
-import dogHappyImg from "../assets/images/dog_happy_mealtime_1790367061254.jpg";
 import {
   ArrowRight,
   CheckCircle2,
   Sparkles,
-  BookOpen,
-  Carrot,
-  Utensils,
-  Bone,
-  Zap,
-  Clock,
-  Award,
-  Smile,
-  Sun,
-  ShieldCheck
+  Check,
+  Smartphone,
+  ShieldCheck,
+  Gift,
+  FileText,
+  Scale,
+  Utensils
 } from "lucide-react";
 
 interface ResultViewProps {
@@ -24,7 +20,7 @@ interface ResultViewProps {
 }
 
 export const ResultView: React.FC<ResultViewProps> = ({ onGoToOffer }) => {
-  const { answers, computedProfile, formattedNarrative, dogSummary } = useQuiz();
+  const { answers, computedProfile, dogSummary, grammar } = useQuiz();
 
   useEffect(() => {
     trackEvent("ViewResult", {
@@ -35,39 +31,20 @@ export const ResultView: React.FC<ResultViewProps> = ({ onGoToOffer }) => {
       dogSize: answers.dogSize,
       dogAge: answers.lifeStage,
       feedingType: answers.feedingType,
-      mainGoal: answers.mainGoal
+      costOfInaction: answers.costOfInaction,
+      availableTime: answers.availableTime,
+      mainPriority: answers.mainPriority
     });
   }, [computedProfile.id, answers]);
 
-  const name = dogSummary.name;
-  const breedIntro =
-    answers.dogBreed && answers.dogBreed !== "Não sei a raça"
-      ? `, ${answers.dogBreed},`
-      : "";
-
-  // Mapeamento dinâmico de ícones para as categorias
-  const getCategoryIcon = (iconName: string) => {
-    switch (iconName) {
-      case "Carrot":
-        return Carrot;
-      case "Utensils":
-        return Utensils;
-      case "Bone":
-        return Bone;
-      case "Zap":
-        return Zap;
-      case "Clock":
-        return Clock;
-      case "Award":
-        return Award;
-      case "Smile":
-        return Smile;
-      case "Sun":
-        return Sun;
-      default:
-        return BookOpen;
-    }
-  };
+  const nome = grammar.nome;
+  const artigo = grammar.artigo;
+  const artigoCap = grammar.artigoCap;
+  const deArtigo = grammar.deArtigo;
+  const deArtigoCap = grammar.deArtigoCap;
+  const pronome = grammar.pronome;
+  const porte = dogSummary.sizeLabel;
+  const faseVida = dogSummary.stageLabel;
 
   const handleCta = () => {
     trackEvent("ClickCTA", {
@@ -78,260 +55,196 @@ export const ResultView: React.FC<ResultViewProps> = ({ onGoToOffer }) => {
   };
 
   return (
-    <div className="w-full py-8 sm:py-12">
+    <div className="w-full bg-[#FAF8F5] py-8 sm:py-12 selection:bg-[#1B4332] selection:text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        {/* Cabeçalho do Resultado */}
-        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E7EEE7] text-[#3F6448] text-xs font-semibold mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Perfil Personalizado Concluído</span>
+
+        {/* ========================================================
+            PASSO 14: TELA DE DIAGNÓSTICO E RESULTADO PALPÁVEL
+            ======================================================== */}
+
+        {/* Header Superior em Caixa Alta */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#F0F7F2] text-[#1B4332] text-xs font-bold uppercase tracking-wider mb-3 border border-[#1B4332]/15 shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#1B4332]" />
+            <span>Diagnóstico Concluído com Sucesso</span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-serif font-bold text-[#292724] tracking-tight leading-tight">
-            Resultado {dogSummary.preposition} {name}
+          <h1 className="text-2xl sm:text-4xl font-serif font-extrabold text-[#1B4332] tracking-tight leading-tight uppercase">
+            DIAGNÓSTICO E PLANO NUTRICIONAL {deArtigoCap.toUpperCase()} {nome.toUpperCase()}
           </h1>
 
-          <p className="text-sm sm:text-base text-[#292724]/75 mt-3 leading-relaxed">
-            Analisamos as respostas sobre o {name}{breedIntro} e encontramos um perfil de alimentação que combina com o que você está procurando para a rotina {dogSummary.possessive}.
+          <p className="text-sm sm:text-base text-[#666666] mt-3 leading-relaxed">
+            Parâmetros metabólicos calculados com base no porte, fase da vida e necessidades biológicas {grammar.dPronome}.
           </p>
         </div>
 
-        {/* Ficha Editorial do Cão */}
-        <div className="bg-[#F3EDE3]/70 border border-[#292724]/10 rounded-2xl p-6 sm:p-8 mb-10 shadow-xs">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-5 border-b border-[#292724]/8 mb-6">
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#3F6448]">
-                Ficha de Rotina
+        {/* Card Principal com Borda Verde #1B4332 */}
+        <div className="bg-white rounded-2xl border-2 border-[#1B4332] p-6 sm:p-9 mb-8 shadow-[0_4px_24px_rgba(27,67,50,0.08)]">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1B4332] mb-3">
+            <CheckCircle2 className="w-4 h-4 text-[#1B4332]" />
+            <span>Kit de Entregáveis Pronto para Aplicação</span>
+          </div>
+
+          {/* Diagnóstico Especificado */}
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1E293B] leading-snug mb-4">
+            Com base no porte {porte} e na fase {faseVida}, geramos o{" "}
+            <span className="text-[#1B4332] font-extrabold underline decoration-[#1B4332]/30 underline-offset-4">
+              Kit de Alimentação Personalizada d{artigo} {nome}
+            </span>.
+          </h2>
+
+          <p className="text-sm sm:text-base text-[#666666] leading-relaxed mb-6">
+            O que {artigo} {nome} precisa não é de um livro teórico nem de complicações. Você vai receber ferramentas práticas de cozinha prontas para consultar, com medidas em colheres e xícaras para aplicar em menos de 5 minutos.
+          </p>
+
+          {/* Lista de Entregáveis Visuais Liberados Solicitada */}
+          <div className="bg-[#F0F7F2] rounded-2xl p-5 sm:p-6 border border-[#1B4332]/15 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-[#1B4332]/10">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#1B4332]">
+                Entregáveis Físicos & Digitais Liberados:
               </span>
-              <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#292724] mt-0.5">
-                🐶 {name}
-              </h2>
+              <span className="text-[11px] font-bold text-[#FF6B35] bg-[#FF6B35]/10 px-2 py-0.5 rounded-full border border-[#FF6B35]/20">
+                100% Prático
+              </span>
             </div>
-            <div className="text-xs font-semibold text-[#3F6448] bg-white px-3 py-1.5 rounded-lg border border-[#3F6448]/20">
-              Foco: {computedProfile.title}
+
+            {/* Entregável 1: Fichas de Cozinha de 3 Minutos */}
+            <div className="flex items-start gap-3.5 text-sm text-[#1E293B]">
+              <div className="w-6 h-6 rounded-lg bg-[#1B4332] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                <Utensils className="w-3.5 h-3.5" />
+              </div>
+              <div>
+                <strong className="text-[#1E293B] font-bold block">
+                  Fichas de Cozinha de 3 Minutos:
+                </strong>
+                <span className="text-xs sm:text-sm text-[#666666]">
+                  Preparos de alta palatabilidade para {pronome} comer com alegria, utilizando o que você já tem em casa.
+                </span>
+              </div>
+            </div>
+
+            {/* Entregável 2: Guia Anti-Inflamatório */}
+            <div className="flex items-start gap-3.5 text-sm text-[#1E293B]">
+              <div className="w-6 h-6 rounded-lg bg-[#1B4332] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                <ShieldCheck className="w-3.5 h-3.5" />
+              </div>
+              <div>
+                <strong className="text-[#1E293B] font-bold block">
+                  Guia Anti-Inflamatório:
+                </strong>
+                <span className="text-xs sm:text-sm text-[#666666]">
+                  Ingredientes funcionais selecionados para zerar coceira na pele, lambedura constante nas patas e fezes moles.
+                </span>
+              </div>
+            </div>
+
+            {/* Entregável 3: Tabela de Proporções para Porte */}
+            <div className="flex items-start gap-3.5 text-sm text-[#1E293B]">
+              <div className="w-6 h-6 rounded-lg bg-[#1B4332] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                <Scale className="w-3.5 h-3.5" />
+              </div>
+              <div>
+                <strong className="text-[#1E293B] font-bold block">
+                  Tabela de Proporções para Porte {porte}:
+                </strong>
+                <span className="text-xs sm:text-sm text-[#666666]">
+                  Quantidade exata por refeição ajustada em colheres e xícaras sem precisar pesar nada na balança.
+                </span>
+              </div>
+            </div>
+
+            {/* Entregável 4: 2 Bônus Exclusivos de Imprimir */}
+            <div className="flex items-start gap-3.5 text-sm text-[#1E293B] pt-2 border-t border-[#1B4332]/10">
+              <div className="w-6 h-6 rounded-lg bg-[#E63946] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                <Gift className="w-3.5 h-3.5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <strong className="text-[#1E293B] font-bold">
+                    2 Bônus Exclusivos de Imprimir Liberados:
+                  </strong>
+                  <span className="text-[10px] font-bold text-[#E63946] uppercase bg-rose-100 px-2 py-0.5 rounded-full">
+                    Grátis Hoje
+                  </span>
+                </div>
+                <span className="text-xs sm:text-sm text-[#666666]">
+                  Tabela de Geladeira (Alimentos Permitidos & Proibidos) + Guia de Pronta Resposta para Socorros Digestivos.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Ficha Resumo do Cão */}
+        <div className="bg-white border border-[#1B4332]/10 rounded-2xl p-6 sm:p-8 mb-10 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-[#E2E8F0] mb-5">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#1B4332]">
+                Parâmetros Biológicos
+              </span>
+              <h3 className="text-lg sm:text-xl font-bold text-[#1E293B] mt-0.5">
+                🐶 {nome}
+              </h3>
+            </div>
+            <div className="text-xs font-bold text-[#1B4332] bg-[#F0F7F2] px-3.5 py-1.5 rounded-full border border-[#1B4332]/15">
+              Status: Kit de Cozinha Liberado
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs sm:text-sm">
             <div>
-              <span className="text-[11px] font-medium text-[#292724]/60 uppercase tracking-wider block">
-                Raça
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#292724] mt-0.5 block truncate" title={dogSummary.breedLabel}>
-                {dogSummary.breedLabel}
-              </span>
+              <span className="text-xs text-[#666666] font-medium block">Raça</span>
+              <span className="font-bold text-[#1E293B] mt-0.5 block truncate">{dogSummary.breedLabel}</span>
             </div>
-
             <div>
-              <span className="text-[11px] font-medium text-[#292724]/60 uppercase tracking-wider block">
-                Sexo
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#292724] mt-0.5 block">
-                {dogSummary.genderLabel}
-              </span>
+              <span className="text-xs text-[#666666] font-medium block">Fase da Vida</span>
+              <span className="font-bold text-[#1E293B] mt-0.5 block">{dogSummary.stageLabel}</span>
             </div>
-
             <div>
-              <span className="text-[11px] font-medium text-[#292724]/60 uppercase tracking-wider block">
-                Porte
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#292724] mt-0.5 block">
-                {dogSummary.sizeLabel}
-              </span>
+              <span className="text-xs text-[#666666] font-medium block">Porte Físico</span>
+              <span className="font-bold text-[#1E293B] mt-0.5 block">{dogSummary.sizeLabel}</span>
             </div>
-
             <div>
-              <span className="text-[11px] font-medium text-[#292724]/60 uppercase tracking-wider block">
-                Fase da Vida
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#292724] mt-0.5 block">
-                {dogSummary.stageLabel}
-              </span>
-            </div>
-
-            <div>
-              <span className="text-[11px] font-medium text-[#292724]/60 uppercase tracking-wider block">
-                Rotina
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#292724] mt-0.5 block">
-                {dogSummary.routineLabel}
-              </span>
-            </div>
-
-            <div>
-              <span className="text-[11px] font-medium text-[#292724]/60 uppercase tracking-wider block">
-                Alimentação Atual
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#292724] mt-0.5 block">
-                {dogSummary.dietLabel}
-              </span>
-            </div>
-
-            <div>
-              <span className="text-[11px] font-medium text-[#292724]/60 uppercase tracking-wider block">
-                Objetivo Central
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#3F6448] mt-0.5 block">
-                {dogSummary.goalLabel}
-              </span>
+              <span className="text-xs text-[#666666] font-medium block">Formato</span>
+              <span className="font-bold text-[#1E293B] mt-0.5 block">Fichas de 1 Página</span>
             </div>
           </div>
+        </div>
 
-          {/* Botão de acesso direto às receitas do pet */}
-          <div className="mt-6 pt-5 border-t border-[#292724]/8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-left w-full sm:w-auto">
-              <span className="text-xs sm:text-sm font-semibold text-[#292724] block">
-                Receitas selecionadas para {name}
-              </span>
-              <span className="text-[11px] sm:text-xs text-[#292724]/65 block mt-0.5">
-                Opções práticas com foco em {computedProfile.title.toLowerCase()}
-              </span>
-            </div>
+        {/* Comparativo Visual: Antes vs Depois */}
+        <div className="mb-10">
+          <AntesDepois dogName={nome} />
+        </div>
 
+        {/* Bloco de Transição para o Produto (Passo 14 CTA) */}
+        <div className="bg-white rounded-2xl border-2 border-[#1B4332] p-6 sm:p-10 shadow-[0_8px_30px_rgba(27,67,50,0.1)] text-center my-10">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FF6B35]/10 text-[#FF6B35] text-xs font-bold uppercase tracking-wider mb-4 border border-[#FF6B35]/20">
+            <Smartphone className="w-3.5 h-3.5" />
+            <span>Kit Sob Medida Pronto</span>
+          </div>
+
+          <h2 className="text-xl sm:text-3xl font-serif font-bold text-[#1B4332] tracking-tight leading-snug mb-4 max-w-2xl mx-auto">
+            O Kit de Alimentação Personalizada {deArtigo} {nome} está pronto para ser liberado.
+          </h2>
+
+          <p className="text-sm sm:text-base text-[#1E293B] max-w-2xl mx-auto leading-relaxed mb-8">
+            Em vez de gastar com sachês cheios de conservantes ou remédios caros na clínica veterinária, tenha na ponta dos dedos ferramentas visuais simples de cozinha para {artigo} {nome} comer com vontade e viver com longevidade.
+          </p>
+
+          <div className="max-w-md mx-auto">
             <button
               type="button"
               onClick={handleCta}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#3F6448] hover:bg-[#294333] active:scale-[0.98] text-white font-bold text-sm sm:text-base shadow-sm transition-all duration-150 inline-flex items-center justify-center gap-2 cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3F6448]"
+              className="w-full py-4.5 px-8 rounded-2xl bg-[#FF6B35] hover:bg-[#E85D04] active:scale-[0.99] text-white font-extrabold text-base sm:text-lg shadow-xl shadow-[#FF6B35]/30 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF6B35]/30"
             >
-              <span>Acessar as receitas {dogSummary.preposition} {name}</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>LIBERAR MEU KIT PERSONALIZADO AGORA →</span>
             </button>
-          </div>
-        </div>
-
-        {/* Bloco de Análise Narrativa Personalizada */}
-        <div className="bg-white rounded-2xl border border-[#292724]/8 p-6 sm:p-8 mb-10 shadow-xs">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-            <div className="md:col-span-7 space-y-4">
-              <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#C98258]">
-                <span>Diagnóstico de Rotina</span>
-              </div>
-
-              <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#292724]">
-                Seu foco principal é ter {computedProfile.title.toLowerCase()} na rotina {dogSummary.preposition} {name}.
-              </h3>
-
-              <p className="text-xs sm:text-sm text-[#292724]/80 leading-relaxed">
-                {formattedNarrative}
-              </p>
-
-              <p className="text-xs sm:text-sm text-[#292724]/80 leading-relaxed">
-                {computedProfile.summary}
-              </p>
-            </div>
-
-            <div className="md:col-span-5 aspect-4/3 rounded-xl overflow-hidden border border-[#292724]/8 bg-[#FAF8F4]">
-              <img
-                src={dogHappyImg}
-                alt="Cachorro saudável se alimentando de forma feliz"
-                className="w-full h-full object-cover"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-          </div>
-
-          {/* O que pode ficar mais fácil para você */}
-          <div className="mt-8 pt-6 border-t border-[#292724]/8">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-[#292724] mb-4">
-              O que pode ficar mais fácil para você a partir de agora:
-            </h4>
-
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-[#292724]/85">
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-[#3F6448] shrink-0 mt-0.5" />
-                <span>Ter mais opções seguras para variar o cardápio sem medo;</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-[#3F6448] shrink-0 mt-0.5" />
-                <span>Evitar ficar repetindo sempre as mesmas ideias ou petiscos;</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-[#3F6448] shrink-0 mt-0.5" />
-                <span>Reduzir o tempo perdido procurando receitas soltas na internet;</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-[#3F6448] shrink-0 mt-0.5" />
-                <span>Consultar opções de forma organizada em poucos cliques;</span>
-              </li>
-              <li className="flex items-start gap-2.5 sm:col-span-2">
-                <CheckCircle2 className="w-4 h-4 text-[#3F6448] shrink-0 mt-0.5" />
-                <span>Escolher facilmente o que preparar de acordo com os ingredientes que tem em casa.</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Categorias Recomendadas para o Perfil */}
-        <div className="mb-12">
-          <div className="text-center max-w-xl mx-auto mb-8">
-            <span className="text-xs font-semibold text-[#3F6448] tracking-wider uppercase">
-              Seleção Recomendada
+            <span className="text-xs text-[#666666] block mt-2.5">
+              Acesso digital instantâneo + Fichas e Bônus de Imprimir
             </span>
-            <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#292724] mt-1">
-              Por onde você pode começar com {dogSummary.article} {name}
-            </h3>
-            <p className="text-xs sm:text-sm text-[#292724]/70 mt-1">
-              Categorias prioritárias sugeridas a partir das respostas do seu quiz:
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {computedProfile.categories.map((cat, idx) => {
-              const IconComp = getCategoryIcon(cat.iconName);
-              return (
-                <div
-                  key={idx}
-                  className="bg-white rounded-2xl p-5 sm:p-6 border border-[#292724]/8 shadow-xs flex items-start gap-4"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-[#E7EEE7] text-[#3F6448] flex items-center justify-center shrink-0">
-                    <IconComp className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm sm:text-base font-serif font-bold text-[#292724]">
-                      {cat.title}
-                    </h4>
-                    <p className="text-xs text-[#292724]/75 mt-1 leading-relaxed">
-                      {cat.description}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
 
-        {/* Transição para o Produto + Comparativo Antes/Depois */}
-        <AntesDepois />
-
-        {/* Chamada para Ação para a Oferta do Acervo */}
-        <div className="bg-[#294333] text-white rounded-3xl p-6 sm:p-10 text-center max-w-3xl mx-auto shadow-sm my-10">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold mb-4">
-            <BookOpen className="w-3.5 h-3.5 text-[#E7EEE7]" />
-            Biblioteca Completa
-          </span>
-
-          <h3 className="text-2xl sm:text-3xl font-serif font-bold mb-3 text-balance">
-            Agora imagine ter todas essas opções organizadas em um só lugar
-          </h3>
-
-          <p className="text-xs sm:text-sm text-white/80 max-w-xl mx-auto mb-8 leading-relaxed text-balance">
-            Você não precisa inventar preparos do zero nem perder tempo em pesquisas repetidas. O 4 Patas reúne tudo o que você precisa em uma plataforma prática de consultar no dia a dia.
-          </p>
-
-          <button
-            type="button"
-            onClick={handleCta}
-            className="w-full sm:w-auto min-w-[280px] py-4 px-8 rounded-xl bg-white hover:bg-[#FAF8F4] active:scale-[0.99] text-[#294333] font-bold text-base sm:text-lg shadow-sm transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white/50"
-          >
-            <span>Ver como ter acesso ao 4 Patas</span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
-
-          <p className="text-xs text-white/60 mt-3">
-            Acesso digital imediato no celular · Consulta permanente
-          </p>
-        </div>
       </div>
     </div>
   );

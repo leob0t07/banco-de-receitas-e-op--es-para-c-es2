@@ -11,28 +11,28 @@ export const FAQSection: React.FC = () => {
 
   const faqs: FAQItem[] = [
     {
-      question: "O acesso é digital?",
-      answer: "Sim. O 4 Patas é um material 100% digital. Você recebe o link de acesso exclusivo direto no seu e-mail assim que a compra for confirmada."
+      question: "Como funciona a entrega do Plano Personalizado?",
+      answer: "O acesso é 100% digital e imediato. Logo após a confirmação do pagamento, você recebe um e-mail exclusivo com o link de acesso ao seu portal, podendo começar a aplicar no mesmo instante."
     },
     {
-      question: "Posso acessar pelo celular?",
-      answer: "Sim, perfeitamente. Toda a plataforma foi desenhada prioritariamente para celulares e tablets. Você pode consultar as fichas de receitas com facilidade direto na bancada da sua cozinha."
+      question: "Posso acessar pelo celular direto na cozinha?",
+      answer: "Sim, perfeitamente. O programa foi desenvolvido com foco prioritário em smartphones e tablets. As fichas de porções e preparos são diretas, práticas e fáceis de consultar enquanto você serve o prato."
     },
     {
-      question: "Preciso baixar algum aplicativo pesado?",
-      answer: "Não. O acesso funciona direto pelo navegador de qualquer dispositivo com internet (celular, computador ou tablet). Você também pode salvar o atalho na tela inicial do seu celular como se fosse um app leve."
+      question: "Preciso cozinhar por horas ou ter ingredientes caros?",
+      answer: "Não! O maior foco do Plano de Nutrição Sob Medida é a praticidade real. Os toppers e misturas levam entre 3 e 5 minutos para serem preparados, utilizando ingredientes comuns e acessíveis que você já tem em casa."
     },
     {
-      question: "Como recebo o acesso?",
-      answer: "Imediatamente após a aprovação do pagamento, você receberá um e-mail com os seus dados de acesso e as instruções para começar a explorar a biblioteca."
+      question: "O plano é adaptado para o porte e idade do meu cão?",
+      answer: "Sim. Todas as orientações, tabelas de porções e densidades nutricionais consideram o porte físico, a fase da vida e os sinais biológicos informados durante o questionário."
     },
     {
-      question: "Posso consultar as receitas quando quiser?",
-      answer: "Sim. O acesso ao acervo é permanente (vitalício). Não há mensalidades nem cobranças recorrentes."
+      question: "O pagamento é único ou tem mensalidade?",
+      answer: "O pagamento é único, no valor promocional de R$ 9,90. Não existem assinaturas, mensalidades nem cobranças ocultas posteriores. O seu acesso ao material é vitalício."
     },
     {
-      question: "O conteúdo é indicado para qualquer cachorro?",
-      answer: "As receitas e petiscos foram elaborados com ingredientes seguros para cães saudáveis de diferentes portes e fases. Caso o seu cachorro possua alergias específicas diagnosticadas, problemas renais ou siga uma dieta clínica sob prescrição, recomendamos apresentar as receitas ao seu médico veterinário antes de introduzir novos alimentos."
+      question: "E se o meu cão não se adaptar?",
+      answer: "Você conta com a nossa Garantia Incondicional de 7 dias. Se dentro desse período você achar que o plano não facilitou a sua rotina ou que seu cão não amou as opções, basta solicitar o reembolso para receber 100% do valor de volta."
     }
   ];
 
@@ -41,17 +41,17 @@ export const FAQSection: React.FC = () => {
   };
 
   return (
-    <section className="w-full py-12 sm:py-16">
+    <section className="w-full py-10 sm:py-14">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <div className="text-center max-w-xl mx-auto mb-10">
-          <span className="text-xs font-semibold text-[#3F6448] tracking-wider uppercase">
+        <div className="text-center max-w-xl mx-auto mb-8">
+          <span className="text-xs font-bold text-[#1B4332] tracking-wider uppercase">
             Dúvidas Comuns
           </span>
-          <h2 className="text-2xl sm:text-3xl font-serif font-semibold text-[#292724] mt-2">
+          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#1E293B] mt-1.5">
             Perguntas Frequentes
           </h2>
-          <p className="text-sm text-[#292724]/75 mt-2">
-            Respostas diretas e transparentes sobre o funcionamento do 4 Patas.
+          <p className="text-sm text-[#666666] mt-2">
+            Tudo o que você precisa saber sobre o Plano de Alimentação Personalizada.
           </p>
         </div>
 
@@ -61,26 +61,32 @@ export const FAQSection: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="bg-white rounded-xl border border-[#292724]/8 overflow-hidden transition-all duration-200 shadow-xs"
+                className={`bg-white rounded-2xl border-2 overflow-hidden transition-all duration-200 ${
+                  isOpen
+                    ? "border-[#1B4332] shadow-[0_4px_16px_rgba(27,67,50,0.08)]"
+                    : "border-[#E2E8F0] hover:border-[#1B4332]/40 shadow-xs"
+                }`}
               >
                 <button
                   type="button"
                   onClick={() => toggle(idx)}
-                  className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3F6448]"
+                  className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332]"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-sm sm:text-base font-semibold text-[#292724]">
+                  <span className={`text-sm sm:text-base font-bold transition-colors ${
+                    isOpen ? "text-[#1B4332]" : "text-[#1E293B]"
+                  }`}>
                     {faq.question}
                   </span>
                   <ChevronDown
-                    className={`w-4 h-4 text-[#3F6448] transition-transform duration-200 shrink-0 ${
+                    className={`w-4 h-4 text-[#1B4332] transition-transform duration-200 shrink-0 ${
                       isOpen ? "rotate-180" : ""
                     }`}
                   />
                 </button>
 
                 {isOpen && (
-                  <div className="px-4 pb-5 sm:px-5 sm:pb-5 text-xs sm:text-sm text-[#292724]/80 leading-relaxed border-t border-[#292724]/5 pt-3">
+                  <div className="px-4 sm:px-5 pb-4 sm:pb-5 text-xs sm:text-sm text-[#666666] leading-relaxed border-t border-[#E2E8F0]/60 pt-3">
                     {faq.answer}
                   </div>
                 )}
