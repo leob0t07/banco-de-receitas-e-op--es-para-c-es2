@@ -24,8 +24,10 @@ export const OnboardingView: React.FC<OnboardingViewProps> = ({ onContinue }) =>
   ];
 
   const totalImages = images.length;
-  const timePerImage = 2500; // 2.5 segundos por slide
-  const totalDuration = totalImages * timePerImage; // 12.5 segundos no 1º ciclo completo
+  // Tempo confortável de ~2.4 segundos por slide para o lead conseguir ler os títulos com calma
+  const timePerImage = 2400;
+  // Carregamento de ~3.2 segundos para liberar o botão CONTINUAR sem travar o lead
+  const totalDuration = 3200;
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -33,6 +35,7 @@ export const OnboardingView: React.FC<OnboardingViewProps> = ({ onContinue }) =>
 
   const startTimeRef = useRef<number | null>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const manualSelectionRef = useRef<{ index: number; timestamp: number } | null>(null);
 
   useEffect(() => {
     startTimeRef.current = performance.now();
@@ -41,17 +44,21 @@ export const OnboardingView: React.FC<OnboardingViewProps> = ({ onContinue }) =>
       if (!startTimeRef.current) return;
       const elapsed = currentTime - startTimeRef.current;
 
-      // 1. O carregamento acompanha o tempo até 100%
+      // 1. O carregamento da barra acompanha o tempo até 100%
       const rawProgress = (elapsed / totalDuration) * 100;
       const currentProgress = Math.min(rawProgress, 100);
       setProgress(currentProgress);
 
-      // 2. Os slides continuam passando em loop infinito mesmo após passar todos (módulo totalImages)
-      const calculatedIndex = Math.floor(elapsed / timePerImage) % totalImages;
-      setCurrentImageIndex(calculatedIndex);
-
       if (elapsed >= totalDuration && !isCompleted) {
         setIsCompleted(true);
+      }
+
+      // 2. Os slides passam a cada ~2.4s (respeitando clique manual temporário se houver)
+      if (manualSelectionRef.current && currentTime - manualSelectionRef.current.timestamp < 3500) {
+        setCurrentImageIndex(manualSelectionRef.current.index);
+      } else {
+        const calculatedIndex = Math.floor(elapsed / timePerImage) % totalImages;
+        setCurrentImageIndex(calculatedIndex);
       }
 
       // Mantém o loop ativo para que as imagens continuem alternando indefinidamente
@@ -66,6 +73,14 @@ export const OnboardingView: React.FC<OnboardingViewProps> = ({ onContinue }) =>
       }
     };
   }, [totalDuration, timePerImage, totalImages, isCompleted]);
+
+  const handleDotClick = (idx: number) => {
+    manualSelectionRef.current = {
+      index: idx,
+      timestamp: performance.now()
+    };
+    setCurrentImageIndex(idx);
+  };
 
   const iniciarQuiz = () => {
     onContinue();
@@ -101,15 +116,18 @@ export const OnboardingView: React.FC<OnboardingViewProps> = ({ onContinue }) =>
           })}
         </div>
 
-        {/* Indicadores de slides (dots) que acompanham a imagem atual continuamente */}
-        <div className="flex items-center justify-center gap-1.5 mt-4">
-          {images.map((_, idx) => (
-            <div
+        {/* Indicadores de slides (dots) interativos que acompanham a imagem atual */}
+        <div className="flex items-center justify-center gap-2 mt-4" role="tablist" aria-label="Slides do carrossel">
+          {images.map((img, idx) => (
+            <button
               key={idx}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
+              type="button"
+              onClick={() => handleDotClick(idx)}
+              aria-label={`Ver slide ${idx + 1}: ${img.alt}`}
+              className={`h-2 rounded-full transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2E5A36] ${
                 currentImageIndex === idx
-                  ? "w-6 bg-[#2E5A36]"
-                  : "w-1.5 bg-[#2E5A36]/20"
+                  ? "w-7 bg-[#2E5A36]"
+                  : "w-2 bg-[#2E5A36]/25 hover:bg-[#2E5A36]/50"
               }`}
             />
           ))}
